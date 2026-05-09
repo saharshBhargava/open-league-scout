@@ -119,6 +119,7 @@ export default function Page() {
   const [ageMax,      setAgeMax]      = useState(40);
   const [minPot,      setMinPot]      = useState(0);
   const [academyOnly, setAcademyOnly] = useState(false);
+  const [freeAgentOnly, setFreeAgentOnly] = useState(false);
   const [sortKey,     setSortKey]     = useState("potential");
   const [sortDir,     setSortDir]     = useState(-1);
 
@@ -148,6 +149,7 @@ export default function Page() {
       if (p.age > ageMax)                                        return false;
       if (p._potential < minPot)                                 return false;
       if (academyOnly && p.academy?.status !== 1)               return false;
+      if (freeAgentOnly && (p.potential_min != null || p.potential_max != null)) return false;
       return true;
     });
 
@@ -159,7 +161,7 @@ export default function Page() {
     });
 
     return list;
-  }, [players, search, zoneFilter, posFilter, ageMax, minPot, academyOnly, sortKey, sortDir]);
+  }, [players, search, zoneFilter, posFilter, ageMax, minPot, academyOnly, freeAgentOnly, sortKey, sortDir]);
 
   const handleSort = useCallback((key) => {
     if (!key) return;
@@ -256,6 +258,10 @@ export default function Page() {
           <label className={styles.checkLabel}>
             <input type="checkbox" checked={academyOnly} onChange={(e) => setAcademyOnly(e.target.checked)} />
             Academy only
+          </label>
+          <label className={styles.checkLabel}>
+            <input type="checkbox" checked={freeAgentOnly} onChange={(e) => setFreeAgentOnly(e.target.checked)} />
+            Free agents
           </label>
         </div>
 

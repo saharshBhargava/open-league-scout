@@ -3,12 +3,10 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import styles from "./page.module.css";
 
 /* ─── helpers ─── */
+function computePotentialMin(p) { return p.potential_min ?? 0; }
+
 function computePotential(p) {
-  const base =
-    p.previous_rating && p.previous_rating.length > 0
-      ? p.previous_rating[p.previous_rating.length - 1]
-      : 1;
-  return +(base + (p.rating_diff || 0)).toFixed(2);
+  return p.potential_max ?? p.potential_min ?? 0;
 }
 
 function fmtValue(n) {
@@ -59,8 +57,8 @@ function PlayerDrawer({ player, onClose }) {
     ["Age",            player.age],
     ["League",         player.league?.name || "—"],
     ["Academy",        player.academy?.team?.name || "—"],
-    ["Potential",      player._potential.toFixed(2)],
-    ["Rating diff",    `+${(player.rating_diff || 0).toFixed(2)}`],
+    ["Pot. max",       fmtValue(player.potential_max)],
+    ["Pot. min",       fmtValue(player.potential_min)],
     ["Market value",   fmtValue(player.market_value)],
     ["Salary",         "$" + fmtValue(player.salary)],
     ["Goals",          player.goals_scored || 0],
@@ -93,7 +91,7 @@ function PlayerDrawer({ player, onClose }) {
 
       <div className={styles.drawerPot}>
         <span className={styles.drawerPotLabel}>Potential</span>
-        <span className={styles.drawerPotValue}>{player._potential.toFixed(2)}</span>
+        <span className={styles.drawerPotValue}>{fmtValue(player._potential)}</span>
       </div>
 
       <div className={styles.drawerRows}>
@@ -130,7 +128,7 @@ export default function Page() {
       .then((data) => {
         if (data.error) { setError(data.error); setLoading(false); return; }
         const raw = Array.isArray(data) ? data : data.players || [];
-        setPlayers(raw.map((p) => ({ ...p, _potential: computePotential(p) })));
+        setPlayers(raw.map((p) => ({ ...p, _potential: computePotential(p), _potMin: computePotentialMin(p) })));
         setLoading(false);
       })
       .catch((e) => { setError(String(e)); setLoading(false); });
@@ -170,7 +168,7 @@ export default function Page() {
   }, [sortKey]);
 
   const avgPot = filtered.length
-    ? (filtered.reduce((s, p) => s + p._potential, 0) / filtered.length).toFixed(2)
+    ? fmtValue(Math.round(filtered.reduce((s, p) => s + p._potential, 0) / filtered.length))
     : "—";
 
   function cellValue(col, p) {
@@ -187,7 +185,7 @@ export default function Page() {
       case "fav_position":
         return <span style={{ color: ZONE_COLORS[p.fav_zone] || "inherit", fontWeight: 500 }}>{p.fav_position}</span>;
       case "potential":
-        return <span className={styles.potCell}>{p._potential.toFixed(2)}</span>;
+        return <span className={styles.potCell}>{fmtValue(p._potential)}</span>;
       case "rating_diff":
         return (
           <span style={{ color: p.rating_diff > 0 ? "#ffb300" : "var(--text3)" }}>

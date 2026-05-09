@@ -1,0 +1,31 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #0d0f12;
+  --bg2:       #13161b;
+  --bg3:       #1a1e25;
+  --border:    #2a2f3a;
+  --border2:   #363d4d;
+  --text:      #e8eaf0;
+  --text2:     #8b92a5;
+  --text3:     #555e72;
+  --accent:    #00e676;
+  --accent2:   #00b058;
+  --amber:     #ffb300;
+  --red:       #ff5252;
+  --blue:      #448aff;
+  --purple:    #b388ff;
+  --font:      'Inter', 'Segoe UI', system-ui, sans-serif;
+  --radius:    10px;
+  --radius-lg: 14px;
+}
+
+html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--font); font-size: 14px; line-height: 1.5; }
+
+input, select, button { font-family: inherit; font-size: 13px; }
+
+::placeholder { color: var(--text3); }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }

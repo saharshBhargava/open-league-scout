@@ -34,7 +34,7 @@ In Vercel → your project → **Settings → Environment Variables**:
 
 | Name | Value |
 |------|-------|
-| `OPEN_LEAGUE_COOKIE` | `s%3AKKCJdcHTGyJ2oxLxv6TdiLw4MUb7Ghq3.IFFPqJE%2FH2eDHE2uStx6qEjxiRiDYYL5MNRWH1d1i20` |
+| `OPEN_LEAGUE_COOKIE` | `s....` |
 
 Paste only the cookie **value** (everything after `connect.sid=`), or paste the full `connect.sid=...` string — the API route handles both.
 

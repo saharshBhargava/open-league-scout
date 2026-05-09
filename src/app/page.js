@@ -36,7 +36,6 @@ const COLUMNS = [
   { key: "fav_zone",             label: "Zone",      sortKey: "fav_zone",            width: "55px"  },
   { key: "age",                  label: "Age",       sortKey: "age",                 width: "50px"  },
   { key: "potential",            label: "Potential", sortKey: "potential",           width: "80px"  },
-  { key: "rating_diff",          label: "Diff",      sortKey: "rating_diff",         width: "60px"  },
   { key: "market_value",         label: "Value",     sortKey: "market_value",        width: "80px"  },
   { key: "salary",               label: "Salary",    sortKey: "salary",              width: "70px"  },
   { key: "goals_scored",         label: "G",         sortKey: "goals_scored",        width: "40px"  },
